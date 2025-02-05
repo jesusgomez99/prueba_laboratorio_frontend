@@ -10,29 +10,23 @@ const Conservacion = () => {
     const [images, setImages] = useState([]);
 
     const actualizacion = (event) => {
-        // Obtener los archivos seleccionados
         const files = event.target.files;
-        // Crear un array vacío para almacenar nuevas imágenes
-        const newImages = [];
     
-        // Recorrer cada archivo seleccionado
         for (let i = 0; i < files.length; i++) {
-            const file = files[i]; // Obtener el archivo actual
-            const reader = new FileReader(); // Crear una instancia de FileReader para leer el archivo
+            const file = files[i];
+            const reader = new FileReader();
     
-            // Definir lo que sucede cuando el archivo se ha leído completamente
             reader.onload = (e) => {
-                // Agregar un objeto con los datos de la imagen al array newImages
-                newImages.push({
-                    src: e.target.result, // URL de la imagen cargada
-                    magnification: "x4", // Valor predeterminado del aumento
-                });
-    
-                // Actualizar el estado después de procesar todas las imágenes
-                setImages(newImages);
+                // Usar actualización funcional para asegurar que todas las imágenes se agreguen correctamente
+                setImages((prevImages) => [
+                    ...prevImages,
+                    {
+                        src: e.target.result,
+                        magnification: "x4",
+                    },
+                ]);
             };
     
-            // Leer el archivo como una URL de datos (base64)
             reader.readAsDataURL(file);
         }
     };
